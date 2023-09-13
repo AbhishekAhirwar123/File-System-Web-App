@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link 
+        rel="Shortcut Icon"
+        type="image/png"
+        href="/images/icons.png">
+  <title>Filesystem</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+</head>
+<body>
+  <!-- Add Navbar -->
+  <%- include('nav') %>
+    <div id="main">
+      <h2 class=" m-auto mt-1 w-50 p-2 text-center bg-dark text-warning rounded-pill"> Welcome to the File System </h2>
+
+      <div class="container p-2 mt-5 d-flex justify-content-between ">
+          <div class="panel w-25">
+              <form action="/create" method="post">
+                <label class="fs-5"> Enter Filename</label>
+                  <input 
+                      type="text"
+                      class="form-control"
+                      name="filename"
+                  />
+                  <button 
+                        class="form-control 
+                               w-50
+                               m-auto
+                               mt-3
+                               p-1
+                               bg-primary
+                               fs-5"
+                            > Submit 
+                   </button>
+              </form>
+              <hr />
+              <ol>
+                  <% files.forEach(function(file){ %>
+                  <li class="">
+                      <a class="text-decoration-none " href="/file/<%= file %>">
+                          <%= file %></a
+                      >
+                      &nbsp; &nbsp;
+                      <a 
+                          class="text-decoration-none"
+                          href="/delete/<%= file %>"
+                          >❌</a>
+                  </li>
+                  <% }) %>
+              </ol>
+          </div>
+
+          <% if(filename === null) { %>
+            <h3 class="text-muted mt-5 p-5 w-50">No File Opened!</h3>
+          <% } else { %>
+          <!--  -->
+            <form 
+                class="screen w-75 ms-3 d-flex-column align-item-start"
+                action="/update/<%= filename %>"  
+                method="post"
+            >
+                <button class="text-primary btn btn-tarnsparent">
+                    <span class="activefile"> <%= filename %> </span>
+                    <a class="fs-5" href="/">❌</a>
+                </button>
+
+                <textarea 
+                    class="updatingtext"
+                    onfocus="changeText()"
+                    name="filedata" 
+                    class="form-control mt-3 w-100"
+                    id="" 
+                    cols="130" 
+                    rows="20"
+                >
+                <%= filedata %>
+                </textarea>
+            </form>
+
+          <% } %>   
+      </div>
+    </div>
+
+    <script>
+        const activefile = document.querySelector(".activefile");
+        const updatingtext = document.querySelector(".updatingtext");
+
+        function changeText(e) {
+          activefile.style.color = "red";
+        }
+    </script>
+
+</body>
+</html>
